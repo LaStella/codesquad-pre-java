@@ -3,6 +3,10 @@ package week03.two;
 public class WhippedCream extends Coffee {
     public WhippedCream(Coffee coffee) {
         super(coffee);
-        this.state += " Adding WhippedCream";
+    }
+
+    @Override
+    public void brewing() {
+        System.out.println("Adding WhippedCream");
     }
 }

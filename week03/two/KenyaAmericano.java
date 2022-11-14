@@ -1,7 +1,8 @@
 package week03.two;
 
 public class KenyaAmericano extends Coffee {
-    public KenyaAmericano() {
-        this.state = "KenyaAmericano";
+    @Override
+    public void brewing() {
+        System.out.print("KenyaAmericano");
     }
 }
