@@ -38,4 +38,17 @@ public class Member {
     public GRADE getGrade() {
         return grade;
     }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Member) {
+            return this.hashCode() == obj.hashCode();
+        }
+        return false;
+    }
 }
