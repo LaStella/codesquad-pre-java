@@ -4,7 +4,7 @@ import week04.mission01.one.GRADE;
 
 public class MemberShipManagementSetTest {
     public static void main(String[] args) {
-        MemberShipMangementSet management = new MemberShipMangementSet();
+        MemberShipManagementSet management = new MemberShipManagementSet();
         management.addMemberShip(1001, "Hong", GRADE.RED);
         management.addMemberShip(1002, "Park", GRADE.PLATINUM);
         management.addMemberShip(1003, "Kim", GRADE.DIAMOND);
