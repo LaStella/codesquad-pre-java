@@ -96,10 +96,113 @@ public class HeapSort<E> {
         return index / 2;
     }
 
+    private int getLeftChild(int index){
+        return index * 2;
+    }
+
+    private int getRightChild(int index){
+        return index * 2 + 1;
+    }
+
+    public E peek() {
+        return (E) elementData[1];
+    }
+
     public void printHeap() {
-        for (Object o : elementData) {
-            if (o == null) continue;
-            System.out.print("[" + o + "] ");
+        for (int i = 1 ; i <= size ; i++) {
+            System.out.print("[" + elementData[i] + "] ");
         }
+    }
+
+    public int getHeapSize() {
+        return size;
+    }
+
+    public E deleteHeap() {
+        if (elementData[1] == null) {
+            throw new NoSuchElementException();
+        }
+
+        E result = (E) elementData[1];
+        siftDown(1, (E) elementData[size]);
+
+
+
+        return result;
+    }
+
+    private void siftDown(int k, E x) {
+        elementData[size] = null;
+        size--;
+
+        if (comparator != null)
+            siftDownUsingComparator(k, x, elementData, comparator);
+        else
+            siftDownComparable(k, x, elementData);
+    }
+
+    private void siftDownComparable(int index, E element, Object[] ed) {
+        Comparable<? super E> cmp = (Comparable<? super E>) element;
+
+        int child;
+
+        // 왼쪽 자식이 존재하는 동안 반복합니다.
+        while ((child = getLeftChild(index)) <= size) {
+            int right = getRightChild(index);
+            Object childElement = ed[child];
+
+            /*
+            오른쪽 자식이 존재하며 왼쪽 자식이 오른쪽 자식보다 큰 경우
+            자식을 왼쪽 자식에서 오른쪽 자식으로 변경합니다.
+             */
+            if (right <= size && ((Comparable<? super E>)childElement).compareTo((E) ed[right]) > 0) {
+                child = right;
+                childElement = ed[right];
+            }
+
+            // 삽입하려는 원소가 자식보다 작으면 중단합니다.
+            if (cmp.compareTo((E) childElement) < 0)
+                break;
+            /*
+            삽입하려는 원소가 자식노드보다 크므로
+            자식노드와 삽입하려는 노드의 위치를 서로 뒤바꿔줍니다.
+             */
+            ed[index] = childElement;
+            index = child;
+        }
+
+        ed[index] = cmp;
+    }
+
+    private void siftDownUsingComparator(
+            int index, E element, Object[] ed, Comparator<? super E> cmp) {
+        int child;
+
+        // 왼쪽 자식이 존재하는 동안 반복합니다.
+        while ((child = getLeftChild(index)) <= size) {
+            int right = getRightChild(index);
+            Object childElement = ed[child];
+
+            /*
+            오른쪽 자식이 존재하며 왼쪽 자식이 오른쪽 자식보다 큰 경우(비교 기준 Comparator)
+            자식을 왼쪽 자식에서 오른쪽 자식으로 변경합니다.
+             */
+            if (right <= size && cmp.compare((E) childElement, (E) ed[right]) > 0) {
+                child = right;
+                childElement = ed[right];
+            }
+
+            // 삽입하려는 원소가 자식보다 작으면 중단합니다.
+            if (cmp.compare(element, (E) childElement) < 0)
+                break;
+            /*
+            삽입하려는 원소가 자식노드보다 크므로
+            자식노드와 삽입하려는 노드의 위치를 서로 뒤바꿔줍니다.
+             */
+            ed[index] = childElement;
+            index = child;
+        }
+
+        ed[index] = element;
     }
 }
